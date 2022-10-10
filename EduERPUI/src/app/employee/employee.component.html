@@ -1,0 +1,412 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link " [ngClass]="{'active': tabselect === '1'}" (click)="setTabSel('1')" id="query-tab" data-toggle="tab" href="#query" role="tab" aria-controls="home" aria-selected="true">Query</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link"  [ngClass]="{'active': tabselect === '2'}"  id="entryedit-tab"  (click)="setTabSel('2')"  data-toggle="tab" href="#entryedit" role="tab" aria-controls="profile" aria-selected="false">Entry/Edit</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade " [ngClass]="{'show active': tabselect === '1'}"  id="query" role="tabpanel" aria-labelledby="query-tab">
+
+    <div class="container-fluid">
+      <div class="row">
+       <div class="col-md-12">
+          <form [formGroup]="empQuery">
+
+            <div class="card card-primary">
+              <div class="card-header">
+                      <h3 class="card-title">Query Employee</h3>
+              </div>
+              <div class="card-body">
+                <span (click)="opclose()" class="spanShow">Show/Hide Query</span>
+                <div style="display:flex;" >
+                  <div id="dvQer" [ngClass]="showquery==true? 'show1':'hide1'" style="border-right:1px solid grey ;">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inpqename">Emp Name</label>
+                            <input type="text" id="inpqename" class="form-control" formControlName="empName" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="selqgender">Gender</label>
+                        <select id="selqgender"  class="form-control"  formControlName="m01_GenderID">
+                        <option  *ngFor="let x of GenderList.result"  [value]="x.genderID">
+                                {{x.genderName}}
+                            </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="inpqmobile">Mobile</label>
+                        <input type="text" id="inpqmobile" class="form-control" formControlName="mobileNo" />
+                    </div>
+                    </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                 <label for="inpqpanno">Pan No</label>
+                  <input type="text"  name="inpqpanno"   id="inppurchase"   class="form-control" formControlName="panNumber" />
+                  </div>
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="inpqaadhar" >Aadhar No</label>
+                      <input type="text"  name="inpqaadhar"   id="inppurchase"   class="form-control" formControlName="addharNo" />
+                    </div>
+                </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                    <label for="inpqemail">Email</label>
+                        <input type="text" id="inpqemail" class="form-control" formControlName="email" />
+                </div>
+              </div>
+
+
+                </div> 
+               
+                </div> 
+                  <div id="dvData"     style="max-height:  550px; width:100%; overflow:auto ;">
+                    <input type="text" id="inpSearch"  formControlName="filtertext" (keyup)="searchEmployee($event)"  placeholder="Search..."  />
+                    <table id="dvtabsearched" class="table table-bordered table-striped table-hover">
+                      <thead>
+                          <tr class="Gray">
+                              <th>Employee Name</th>
+                              <th>Code</th>
+                              <th>Father Name</th>
+                              <th>Mobile</th>
+                              <th>Email</th>
+                              <th>Address</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let emp of empList  ">
+                            <td>
+                             <button (click)="UpdEmployee(emp)" style="min-width:130px ;" class="btn btn-primary btn-sm"> {{emp.empName}}</button>
+                             <input type="hidden"  [value]="emp.empID"  />
+                            </td>
+                            <td>
+                              <span>  {{emp.empCode}}</span>
+                            </td>
+                            <td>
+                             <span> {{emp.fatherName}}</span>
+                            </td>
+                            <td>
+                              <span>  {{emp.mobileNo}}</span>
+                            </td>
+                            <td>
+                              <span>    {{emp.email}}</span>
+                            </td>
+                            <td>
+                              <span>    {{emp.corAddress}}</span>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                  </div>
+                </div>
+
+                  <button type="button"  (click)="findEmployee()" class="btn btn-primary">Get Employee Data</button>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+              </div>
+  
+          </div>
+     
+       <div class="card card-primary" *ngIf="EmpmasterList.result.length">
+      
+        <div class="card-body">
+            
+          </div>
+       </div>
+          </form>
+      </div>
+      </div>
+  </div>
+  
+  </div>
+  <div class="tab-pane fade" id="entryedit"    [ngClass]="{'show active': tabselect === '2'}"   role="tabpanel" aria-labelledby="entryedit-tab">
+    <div class="container-fluid">
+      <form [formGroup]="empEntry" >
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Entry Edit rmployee</h3>
+        </div>
+        <div class="card-body">
+         <div class="row">
+           <div class="col-md-3">
+            <div class="form-group">
+              <label for="inpVehcode"> Code</label>
+                  <input type="text" id="inpVehcode" class="form-control" formControlName="empCode" />
+            </div>
+           </div>
+           <div class="col-md-1">
+            <div class="form-group" >
+              <label for="seleTitle">Title</label> 
+                           <select id="seleTitle"     class="form-control"  formControlName="b05_TitleID">
+                <option  *ngFor="let x of titleList.result"  [value]="x.titleID">
+                        {{x.titleName}}
+                    </option>
+                </select>
+            </div>
+           </div>
+           <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpEmpname">Name</label>
+            <input type="text" id="inpEmpname"  class="form-control input" formControlName="empName" />
+            <span id="spaninpEmpname" class="fild">*</span>
+          </div>
+        </div>
+           <div class="col-md-4">
+            <div class="form-group">
+              <label for="selegender">Gender</label>
+              
+              <select id="selegender" style="width :95%;"  class="form-control"  formControlName="m01_GenderID">
+                <option  *ngFor="let x of GenderList.result"  [value]="x.genderID">
+                        {{x.genderName}}
+                    </option>
+                </select>
+                <span  id="spanselegender" class="fild">*</span>
+              
+            </div>
+           </div>
+         </div>
+         <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <label for="selevehicle">Vehicle</label>
+            <select id="selevehicle"  class="form-control"  formControlName="vehileID">
+              <option  *ngFor="let x of VehList.result"  [value]="x.vehileID">
+                      {{x.vehicleNo}}
+                  </option>
+              </select>
+              <span  id="spanselvehicle" class="fild">*</span>
+            </div>
+          </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="inpFathername">Father Name</label>
+                <input type="text" id="inpFathername" class="form-control" formControlName="fatherName" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="inpMothername">Mother Name</label>
+                <input type="text" id="inpMothername" class="form-control" formControlName="motherName" />
+          </div>
+        </div>
+      </div>
+         <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpSpousename">Spouse Name</label>
+                  <input type="text" id="inpSpousename" class="form-control" formControlName="spouseName" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpMobilename">Mobile No</label>
+                  <input type="text" id="inpMobilename" class="form-control" formControlName="mobileNo" />
+                  <span  id="spanMobilename" class="fild">*</span>
+                </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="seleWorkingSt">Working Status</label>
+              <select id="seleWorkingSt"  class="form-control"  formControlName="e01_WorkingStatusID">
+                <option  *ngFor="let x of WorkStatList.result"  [value]="x.workingStatusID">
+                        {{x.workingStatusName}}
+                    </option>
+                </select>
+                <span  id="spanWorkingSt" class="fild">*</span>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpPanno">Pan No</label>
+                  <input type="text" id="inpPanno" class="form-control" formControlName="panNumber" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpAadharno" >Aadhar No</label>
+                  <input type="text" id="inpAadharno" class="form-control" formControlName="addharNo" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpEmail">Email</label>
+                  <input type="email" id="inpEmail" class="form-control" formControlName="email" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpDLno">DL No</label>
+                  <input type="text" id="inpDLno" class="form-control" formControlName="dlno" />
+                  <span  id="spanDLno" class="fild">*</span>
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpDob">Dob</label>
+                  <input type="date" id="inpDob"  class="form-control" formControlName="dob" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpDoj">Doj</label>
+                  <input type="date" id="inpDoj" class="form-control" formControlName="doj" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpDor">Date of Retirement</label>
+                  <input type="date" id="inpDor" class="form-control" formControlName="dor" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="selePercountry">Per Country</label>
+              <select id="selePercountry"  class="form-control"  formControlName="m02_PerCountryID">
+                <option  *ngFor="let x of CountryListPer.result"  [value]="x.countryID">
+                        {{x.countryName}}
+                    </option>
+                </select>
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="selePerstate">Per State</label>
+              
+              <select id="selePerstate"  class="form-control" (change)="selectDistrinct($event.target.value)"   formControlName="m03_PerStateID">
+                <option  *ngFor="let x of StateListPer.result"  [value]="x.stateID">
+                        {{x.stateName}}
+                    </option>
+                </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="selePerDistrict">Per District</label>
+              <select id="selePerDistrict"  class="form-control"   formControlName="m04_PerDistrictID">
+                <option  *ngFor="let x of DistrictList.result"  [value]="x.districtID">
+                        {{x.districtName}}
+                    </option>
+                </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpPerPin">Per Pincode</label>
+              <input type="text" maxlength="6" id="inpPerPin" class="form-control" formControlName="perPincode" />
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpPeradd">Per Address</label>
+              <input type="text"  id="inpPeradd" class="form-control" formControlName="perAddress" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="seleCorcountry">Cur Country</label>
+              <select id="seleCorcountry"  class="form-control"  formControlName="m02_CorCountryID">
+                <option  *ngFor="let x of CountryListCur.result"  [value]="x.countryID">
+                        {{x.countryName}}
+                    </option>
+                </select>
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="seleCurstate">Cur State</label>
+              <select id="seleCurstate"  class="form-control" (change)="selectDistrinctCur($event.target.value)"   formControlName="m03_CorStateID">
+                <option  *ngFor="let x of StateListCur.result"  [value]="x.stateID">
+                        {{x.stateName}}
+                    </option>
+                </select>
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="seleCurDistrict">Cur District</label>
+              <select id="seleCurDistrict"  class="form-control"   formControlName="m04_CorDistrictID">
+                <option  *ngFor="let x of DistrictListCur.result"  [value]="x.districtID">
+                        {{x.districtName}}
+                    </option>
+                </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpCurPin">Cur Pincode</label>
+              <input type="text" maxlength="6" id="inpCurPin" class="form-control" formControlName="corPincode" />
+
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpCuradd">Cur Address</label>
+              <input type="text"  id="inpCuradd" class="form-control" formControlName="corAddress" />
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+    </div>
+  </div>
+  <button type="button" (click)="SaveEmp()"  class="btn btn-primary">Save</button>
+  <button type="button" (click)="Reset()"  class="btn btn-primary">Reset</button>
+
+</div>
+
+
+<form [formGroup]="myForm" >
+
+    <div *ngIf="filePath && filePath !== ''">
+      <img [src]="filePath" [alt]="myForm.value.name">
+    </div>
+  
+    <input type="file" accept="image/*" (change)="imagePreview($event)" />
+  
+    <input formControlName="filename" placeholder="File name">
+  
+    <button type="button" (click)="submit">Upload</button>
+  </form>
+
+  

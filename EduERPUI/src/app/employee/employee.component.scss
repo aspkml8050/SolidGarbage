@@ -1,0 +1,50 @@
+a {
+    color:darkblue;
+}
+a:hover{
+    font-weight: bold;
+    color: darkred;
+}
+label {
+    margin: 0;
+    padding: 2px;
+  }
+  
+  label,input,select,span,button {
+      font-size: 12px;
+      margin: 0;
+  height: 30px;
+  }
+  
+  table{
+      border-left: 1px solid grey;
+  }
+  row{
+      padding: 2px;
+  }
+  
+  span.reqd{
+    display: inline;font-size: 25px; color:red;
+  }
+span.fild{
+ display: none;
+}
+.show1{
+    display: initial;
+    width: 25%;
+   }
+   .show2{
+     display: initial;
+     flex-grow: 1;
+    }
+    .hide1{
+     display: none !important;
+   }
+
+   .spanShow{
+    font-size: 9px; padding: 4px 4px ; cursor:pointer;
+
+   }
+   .spanShow:hover{
+    font-weight: bold;
+   }

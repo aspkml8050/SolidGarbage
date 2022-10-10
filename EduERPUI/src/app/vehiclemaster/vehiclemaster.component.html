@@ -1,0 +1,272 @@
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link " [ngClass]="{'active': tabselect2 === '1'}" (click)="setTabSel('1')" id="query-tab" data-toggle="tab" href="#query" role="tab" aria-controls="home" aria-selected="true">Query</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"  [ngClass]="{'active': tabselect2 === '2'}"  id="entryedit-tab"  (click)="setTabSel('2')"  data-toggle="tab" href="#entryedit" role="tab" aria-controls="profile" aria-selected="false">Entry/Edit</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade " [ngClass]="{'show active': tabselect2 === '1'}"  id="query" role="tabpanel" aria-labelledby="query-tab">
+
+    <div class="container-fluid">
+      <div class="row">
+       <div class="col-md-12">
+          <form [formGroup]="queryVeh">
+
+            <div class="card card-primary">
+              <div class="card-header">
+                      <h3 class="card-title">Query Vehicle</h3>
+              </div>
+              <div class="card-body">
+                <span (click)="opclose()"  class="spanShow">Show/Hide Query</span>
+                <div style="display:flex;" >
+                  <div id="dvQer" [ngClass]="showquery==true? 'show1':'hide1'" style="border-right:1px solid grey ;">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inpvno">Vehicle No</label>
+                            <input type="text" id="inpvno" class="form-control" formControlName="vehicleNo" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inpvnm">Vehicle Name</label>
+                            <input type="text" id="inpvnm" class="form-control" formControlName="vehileName" />
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                      <label for="selvtype">Vehicle Type</label>
+                      <select id="selvtype"  class="form-control"  formControlName="vehileTypeID">
+                      <option  *ngFor="let x of VehicletypemasterList.result" [value]="x.vehicleTypeID">
+                              {{x.vehicleTypeName}}
+                          </option>
+                      </select>
+                    </div>
+                    </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                 <label for="inppurchase">Purchase Year</label>
+                  <input type="number" min="1990" max="2025" name="inppurchase" value="-1"  id="inppurchase"   class="form-control" formControlName="purchaseYear" />
+                  </div>
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                    <label for="seldevice">Device Id</label>
+                   <select id="seldevice"  class="form-control"  formControlName="deviceID">
+                    <option  *ngFor="let x of devicelist.result" [value]="x.deviceID">
+                            {{x.deviceName}}
+                        </option>
+                    </select>
+                </div>
+                </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                    <label for="inpchasis">Chesis No</label>
+                        <input type="text" id="inpchasis" class="form-control" formControlName="chesisNo" />
+                </div>
+              </div>
+
+
+                </div> 
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                          <label for="selvcategory">Vehicle Category</label>
+                     <select id="selvcategory"  class="form-control"  formControlName="vehileCatID" >
+                          <option *ngFor="let xc of vehcateg2" [value]="xc.vehicleCatID">
+                           {{xc.vehicleCatName}}
+                          </option>
+                      </select>
+                  
+                          
+                  </div>
+                  </div>
+
+
+                  </div>
+                </div> 
+                  <div id="dvData"     style="max-height:  550px; width:100%; overflow:auto ;">
+                    <input type="text" id="inpSearch"  formControlName="filtertext" (keyup)="searchVehicle($event)"  placeholder="Search..."  />
+                    <table id="dvtabsearched" class="table table-bordered table-striped table-hover">
+                      <thead>
+                          <tr class="Gray">
+                              <th>Vehicle No</th>
+                              <th>Vehicle Name</th>
+                              <th>P.Year</th>
+                              <th>Device Id</th>
+                              <th>Model No</th>
+                              <th>Chasis No</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let veh of vehMasterList  ">
+                            <td>
+                             <button (click)="updVeh(veh)" class="btn btn-primary btn-sm"> {{veh.vehicleNo}}</button>
+                            </td>
+                            <td>
+                              <span>  {{veh.vehileName}}</span>
+                            </td>
+                            <td>
+                             <span> {{veh.purchaseYear}}</span>
+                            </td>
+                            <td>
+                              <span>  {{veh.deviceID}}</span>
+                            </td>
+                            <td>
+                              <span>    {{veh.modelNo}}</span>
+                            </td>
+                            <td>
+                              <span>    {{veh.chesisNo}}</span>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                  </div>
+                </div>
+
+                  <button type="button" (click)="FindVehicle()" class="btn btn-primary">Get Vehicle Data</button>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  <button type="button" (click)="Reset()" class="btn btn-primary">Reset</button>
+              </div>
+  
+          </div>
+     
+       <div class="card card-primary" *ngIf="vehMasterList.length>0">
+      
+        <div class="card-body">
+            
+          </div>
+       </div>
+          </form>
+      </div>
+      </div>
+  </div>
+  
+  </div>
+  <div class="tab-pane fade" id="entryedit"    [ngClass]="{'show active': tabselect2 === '2'}"   role="tabpanel" aria-labelledby="entryedit-tab">
+ 
+    <div class="container-fluid">
+      <form [formGroup]="vmForm">
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Entry Edit Vehicle</h3>
+    </div>
+    <div class="card-body">
+     <div class="row">
+       <div class="col-md-4">
+        <div class="form-group">
+          <label for="inpVehcode">Vehicle Code</label>
+              <input type="text" id="inpVehcode" class="form-control" formControlName="vehileCode" />
+        </div>
+       </div>
+       <div class="col-md-4">
+        <div class="form-group">
+          <label for="inpVehno">Vehicle No</label>*
+        <input type="text" id="inpVehno" class="form-control" formControlName="vehicleNo" />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="inpVehnm">Vehicle Name</label>*
+              <input type="text" id="inpVehnm" class="form-control" formControlName="vehileName" />
+        </div>
+       </div>
+     </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+       <label for="inpVehpy">Purchase Year</label>*
+       <input type="number" id="inpVehpy" class="form-control" formControlName="purchaseYear" />
+     </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+         <label for="selVehtype">Vehicle Type</label>*<br>
+         <select id="selVehtype"  class="form-control"   formControlName="vehileTypeID">
+         <option  *ngFor="let x of VehicletypemasterList.result" [value]="x.vehicleTypeID">
+                 {{x.vehicleTypeName}}
+             </option>
+         </select>      
+        </div>
+       </div>
+       <div class="col-md-4">
+        <div class="form-group">
+         <label for="selVehcat">Vehicle Category</label>*<br>
+         <select id="selVehcat"  class="form-control"   formControlName="vehileCatID">
+            <option *ngFor="let xc of vehcateg2" [value]="xc.vehicleCatID">
+             {{xc.vehicleCatName}}
+            </option>
+         </select>      
+        </div>
+       </div>
+     </div>
+   <div class="row">
+    <div class="col-md-4">
+     <div class="form-group">
+       <label for="inpVehmn">Model No</label>
+           <input type="text" id="inpVehmn" class="form-control" formControlName="modelNo" />
+     </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="inpVehsno">Serial No</label>
+     <input type="text" id="inpVehsno" class="form-control" formControlName="serialNo" />
+   </div>
+    </div>
+   <div class="col-md-4">
+    <div class="form-group">
+      <label for="inpVechno">Chasis No</label>
+          <input type="text" id="inpVechno" class="form-control" formControlName="chesisNo" />
+    </div>
+   </div>
+ </div>
+   <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="inpVehewt">Empty Weight</label>
+     <input type="number" id="inpVehewto" class="form-control" formControlName="vehicleEmptyWeight" />
+      </div>
+   </div>
+   <div class="col-md-4">
+    <div class="form-group">
+      <label for="inpVehdevice">Device Id</label>*
+      <input type="number" id="inpVehdevice" class="form-control" formControlName="deviceID" />
+    
+  </div>
+  </div>
+
+   </div>
+  </div>
+  <div style="display:flex ;">
+    <div style="padding:6px ;">
+      <button style="width:100px ;" type="button" (click)="SaveVehicle()" class="btn btn-primary">Save</button>
+
+    </div>
+    <div  style="padding:6px ;">
+      <button  style="width:100px ;" type="button" (click)="Reset()" class="btn btn-primary">Reset</button>
+      
+    </div>
+
+  </div>
+ </div>
+  
+   </form>
+  </div>
+
+  </div>
+
+</div>
+
+
+

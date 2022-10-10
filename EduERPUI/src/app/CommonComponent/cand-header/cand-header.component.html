@@ -1,0 +1,71 @@
+<div class="card card-primary">
+  <div class="card-body" style="padding: .05rem;">
+    <form [formGroup]="candHeaderForm">
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- col 1 -->
+            <div class="col-3">
+              <div class="form-group">
+                <label>Unique No.</label>
+                <div class="input-group input-group">
+                  <input type="text" class="form-control" maxlength="14" formControlName="uniqueNo"
+                    placeholder="Enter Unique No">
+                  <span class="input-group-append">
+                    <button type="button" (click)="GetCandidateHeader()" class="btn btn-info btn-flat">Go</button>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Class</label>
+                <span class="form-control" style="border-style: none;">{{className}}</span>
+              </div>
+            </div>
+            <!-- col 2 -->
+            <div class="col-3">
+              <div class="form-group">
+                <label for="exampleInputFile">A. Year</label>
+                <select class="form-control" formControlName="aYearID" (change)="GetCandidateHeader()">
+                  <option [value]="-1" *ngIf="AcademicYearList.result.length==0">--Select--</option>
+                  <option *ngFor="let br of AcademicYearList.result" [value]="br.aYearID">{{br.aYearCode}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Branch</label>
+                <span class="form-control" style="border-style: none;">{{branchName}}</span>
+              </div>
+            </div>
+            <!-- col 3 -->
+            <div class="col-3">
+              <div class="form-group">
+                <label for="exampleInputFile">Semester</label>
+                <select class="form-control" formControlName="semesterID" (change)="GetCandidateHeader()">
+                  <option [value]="-1" *ngIf="SemesterList.result.length==0">--Select--</option>
+                  <option *ngFor="let br of SemesterList.result" [value]="br.semesterID">{{br.semName}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Division</label>
+                <span class="form-control" style="border-style: none;">{{divisionName}}</span>
+              </div>
+            </div>
+            <!-- col 4 -->
+            <div class="col-3">
+              <div class="form-group">
+                <label>Course</label>
+                <span class="form-control" style="border-style: none;">{{courseName}}</span>
+              </div>
+              <div class="form-group">
+                <label>Roll No.</label>
+                <span class="form-control" style="border-style: none;">{{rollNo}}</span>
+              </div>
+            </div>
+            <div class="col-12">
+              <span class="blink_me" style="border-style: none; text-transform: uppercase;">{{candName}}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+</div>
