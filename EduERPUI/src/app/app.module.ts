@@ -31,6 +31,7 @@ import { ExcelService } from './services/excel.service';
 import { VehicletypeComponent } from './vehicletype/vehicletype.component';
 import { VehiclemasterComponent } from './vehiclemaster/vehiclemaster.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { UpdscrapcorrectionComponent } from './updscrapcorrection/updscrapcorrection.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { EmployeeComponent } from './employee/employee.component';
     HTMLtoExcelComponent,
     VehicletypeComponent,
     VehiclemasterComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    UpdscrapcorrectionComponent
     
   ],
   imports: [

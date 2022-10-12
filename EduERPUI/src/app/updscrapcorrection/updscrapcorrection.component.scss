@@ -1,0 +1,73 @@
+a {
+    color:darkblue;
+}
+a:hover{
+    font-weight: bold;
+    color: darkred;
+}
+
+label {
+  margin: 0;
+  padding: 2px;
+}
+
+label,input,select,span,button {
+    font-size: 12px;
+    margin: 0;
+height: 30px;
+}
+
+table{
+    border-left: 1px solid grey;
+}
+row{
+    padding: 2px;
+}
+label {
+    margin: 0;
+    padding: 2px;
+  }
+  
+  label,input,select,span,button {
+      font-size: 12px;
+      margin: 0;
+  height: 30px;
+  }
+  
+  table{
+      border-left: 1px solid grey;
+  }
+  row{
+      padding: 2px;
+  }
+  
+  .show1{
+   display: initial;
+   width: 25%;
+}
+  .show2{
+    display: initial;
+    flex-grow: 1;
+
+   }
+   .hide1{
+    display: none !important;
+  }
+
+  
+  .spanShow{
+    font-size: 9px; padding: 4px 4px ; cursor:pointer;
+
+   }
+   .spanShow:hover{
+    font-weight: bold;
+   }
+div, ul {
+	margin: .1rem;
+	padding: .1rem;
+}
+
+#dvQuery{
+    display: flex;
+
+}

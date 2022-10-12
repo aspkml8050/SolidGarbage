@@ -1,0 +1,155 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link " [ngClass]="{'active': tabselect === '1'}" (click)="setTabSel('1')" id="query-tab" data-toggle="tab" href="#query" role="tab" aria-controls="home" aria-selected="true">Query</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link"  [ngClass]="{'active': tabselect === '2'}"  id="entryedit-tab"  (click)="setTabSel('2')"  data-toggle="tab" href="#entryedit" role="tab" aria-controls="profile" aria-selected="false">Entry/Edit</a>
+
+
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade " [ngClass]="{'show active': tabselect === '1'}"  id="query" role="tabpanel" aria-labelledby="query-tab">
+   <div id="dvQuery">
+     <div  style="border-right: 1px solid grey ;  width: 280px;">
+        <form [formGroup]="dataQuery">
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="selqvehicle">Vehicle</label>
+                <select id="selqvehicle"  class="form-control"  formControlName="vehicleID">
+                <option  *ngFor="let x of vehicleList.result"  [value]="x.vehileID">
+                        {{x.vehicleNo}}
+                    </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="selqdevice">Device</label>
+                <select id="selqdevice"  class="form-control"  formControlName="deviceID">
+                <option  *ngFor="let x of deviceList.result"  [value]="x.deviceID">
+                        {{x.deviceName}}
+                    </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="inpqfromdate">From Date</label>
+                    <input type="date" id="inpqfromdate" class="form-control" formControlName="fromDate" />
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="inpqtodate">To Date</label>
+                    <input type="date" id="inpqtodate" class="form-control" formControlName="toDate" />
+                </div>
+            </div>
+          </div>
+<!--        <form [formGroup]="editScrap">
+          <label for="inpeditInOutDate">In/Out Date</label>
+          <input type="date" id="inpeditInOutDate" class="form-control" formControlName="inOutDate" />
+        </form>
+-->
+          <button class="btn btn-primary btn-sm" (click)="findData()" >Get Data</button>
+        </form>
+     </div>
+     <div style="max-height: 550px; overflow:auto ;">
+        <table id="dvtabsearched" style="width:100% ;" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr class="Gray">
+                    <th>Modify</th>
+                    <th>In/Out Date</th>
+                    <th>Vehicle No: Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of returnList  ">
+                  <td>
+                   <button (click)="CorrectData(d)" style="min-width:130px ;" class="btn btn-primary btn-sm">Update </button>
+                   <input type="hidden"  [value]="d.vehicleID"  />
+                  </td>
+                  <td>
+                    <span>  {{d.inOutDate}}</span>
+                  </td>
+                  <td>
+                   <span> {{d.vehicleName}}</span>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+  <div class="tab-pane fade" id="entryedit"    [ngClass]="{'show active': tabselect === '2'}"   role="tabpanel" aria-labelledby="entryedit-tab">
+  <form [formGroup]="vehicleVisit">
+    <div class="container-fluid">
+      <div style="max-height: 550px; overflow:auto ;">
+        <table id="dvtabsearched" style="width:100% ;" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr class="Gray">
+                    <th>Modify</th>
+                    <th>Visited</th>
+                    <th>Vehicle No: Name</th>
+                    <th>In/Out Date</th>
+                    <th>Device Id</th>
+                    <th>Emp Name</th>
+                    <th>Lattitude</th>
+                    <th>Longitude</th>
+                    <th>RFID</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of vehvisit.result ">
+                  <td>
+                    <button type="button" (click)="saveIsIn(d)" class="btn btn-primary btn-sm" >Save (Visited)</button>
+                   <input type="hidden"  [value]="d.scrapVisitID"  />
+                  </td>
+                  <td>
+                    <select id="selBinVisit"  class="form-control"  (change) ="getselected($event)" >
+                      <option  *ngFor="let x of binvisited" [value]="x.covered"  [selected]="x.covered===d.isIn" >
+                              {{x.covered}}
+                          </option>
+                      </select>
+                  </td>
+                  <td>
+                    <span>  {{d.vehicleNo}} {{d.vehicleName}}</span>
+                  </td>
+                  <td>
+                   <span> {{d.inOutTime}}</span>
+                  </td>
+                  <td>
+                    <span> {{d.deviceID}}</span>
+                   </td>
+                   <td>
+                    <span> {{d.empName}}</span>
+                   </td>
+                   <td>
+                    <span> {{d.latitude}}</span>
+                   </td>
+                   <td>
+                    <span> {{d.longitude}}</span>
+                   </td>
+                   <td>
+                    <span> {{d.rfid}}</span>
+                   </td>
+                   <td>
+                    <button type="button" (click)="deletevisit(d)"  class="btn btn-primary  btn-sm"  >Delete</button>
+                   </td>
+                 </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+  </form>
+  </div>
+  </div>
