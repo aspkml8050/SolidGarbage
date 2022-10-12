@@ -35,6 +35,7 @@ export class VehicleBinVisit{
     public scrapVisitID:string="";
     public vehicleNo:string="";
     public vehicleName:string="";
+    public  disabledbutton:boolean=false;
 
 }
 export class VehicleBinVisitList{

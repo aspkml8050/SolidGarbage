@@ -117,6 +117,9 @@ this.getEditTranData$(showd).subscribe({
   next:(resp)=>{
     
     this.vehvisit.result=resp.result;
+    this.vehvisit.result.forEach(x=>{
+      x.disabledbutton=false;
+    })
     console.log(this.vehvisit.result);
     this.setTabSel("2");
 
@@ -144,9 +147,7 @@ this.saveScrapCorrection$(body).subscribe({
 })
 }
 public isdisabled=false;
-deletevisit(d:VehicleBinVisit){
-  this.isdisabled=true;
-  return;
+deletevisit( d:VehicleBinVisit){
   let body={
     scrapVisitID:d.scrapVisitID.toString(),
     isIn:this.selisIn,
@@ -157,6 +158,8 @@ deletevisit(d:VehicleBinVisit){
 this.saveScrapCorrection$(body).subscribe({
   next:(resp)=>{
     alert(resp.msg);
+    d.disabledbutton=true;
+
   }
 })
 }
