@@ -67,8 +67,10 @@ public binvisited:visited[]=[];
   getMasters(){
     let vtrue=new visited();
     vtrue.covered=true;
+    vtrue.showcovered="Yes";
     let vfalse=new visited();
     vfalse.covered=false;
+    vfalse.showcovered="No";
     this.binvisited.push(vtrue);
     this.binvisited.push(vfalse);
     this.getdevice$().subscribe({
@@ -104,21 +106,38 @@ public binvisited:visited[]=[];
   this.getInvalidList$(invquery).subscribe({
     next:(resp)=>{
       this.returnList=resp.result;    
+//console.log(resp);
+//console.log(this.returnList[0].vehicleID);
     }
   })
   }
 
   CorrectData(upd:InvalidQueryData){
+    this.vehvisit.result=[]=[];
     let showd=new Updscrapcorrection();
 showd.vehicleID=upd.vehicleID;
 showd.deviceID="-1";
 showd.inOutDate= upd.inOutDate;//  this.editScrap.get('inOutDate')?.value;
 this.getEditTranData$(showd).subscribe({
   next:(resp)=>{
+    console.log(resp.result);
+    //this.vehvisit.result=resp.result;
+    resp.result.forEach(x=>{
+      let insd=new VehicleBinVisit();
+      insd.deviceID=x.deviceID;
+      insd.empName=x.empName;
+      insd.inOutTime=x.inOutTime;
+      insd.isIn=x.isIn;
+      insd.latitude=x.latitude;
+      insd.longitude=x.longitude;
+      insd.rfid=x.rfid;
+      insd.scrapVisitID=x.scrapVisitID;
+      insd.vehicleName=x.vehicleName;
+      insd.vehicleNo=x.vehicleNo;
     
-    this.vehvisit.result=resp.result;
-    this.vehvisit.result.forEach(x=>{
-      x.disabledbutton=false;
+      insd.disabledbutton=false;
+      this.vehvisit.result.push(insd);
+
     })
     console.log(this.vehvisit.result);
     this.setTabSel("2");
@@ -164,6 +183,7 @@ this.saveScrapCorrection$(body).subscribe({
 })
 }
 
+
   public getdevice$(): Observable<DeviceList>{
     return this.http.get<DeviceList>(  '' + globalConstant.apiUrl + 'Master/GetDevice/-1');
   }
@@ -182,9 +202,27 @@ this.saveScrapCorrection$(body).subscribe({
 
 
   Reset(){
+    this.dataQuery.reset;
     this.dataQuery.patchValue({
-      vehicleID:"-1"
+      vehicleID:"-1",
+      deviceID:"-1",
+      fromDate:new Date(),
+      toDate:new Date()
     });
+   this.vehicleVisit.reset;
+   this.vehicleVisit.patchValue({
+    scrapVisitID:'-1',
+    deviceID:'-1',
+    inOutTime:new Date(),
+    isIn:false,
 
+   })
+   this.returnList=[];
+   this.queryResult=new InvalidQueryDataList();
+   this.query = new InvalidScrapQuery();
+   this.vehvisitList=[];
+   this.vehvisit=new VehicleBinVisitList();
+   this.binvisited=[];
+   this.getMasters();
   }
 }

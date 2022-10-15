@@ -25,6 +25,7 @@ export class InvalidQueryDataList{
   result:InvalidQueryData[]=[];
 }
 export class VehicleBinVisit{
+    public scrapVisitID:string="";
     public deviceID:string="";
     public empName:string="";
     public inOutTime:Date;
@@ -32,7 +33,6 @@ export class VehicleBinVisit{
     public latitude:number;
     public longitude:number;
     public rfid:string="";
-    public scrapVisitID:string="";
     public vehicleNo:string="";
     public vehicleName:string="";
     public  disabledbutton:boolean=false;
@@ -43,6 +43,7 @@ export class VehicleBinVisitList{
 }
 export class visited{
     public covered:boolean=true;
+    public showcovered:string="";
 }
 export class ScrapCorrection{
     public scrapVisitID:string="";

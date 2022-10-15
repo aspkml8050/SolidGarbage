@@ -60,6 +60,7 @@
         </form>
 -->
           <button class="btn btn-primary btn-sm" (click)="findData()" >Get Data</button>
+          <button class="btn btn-primary btn-sm" (click)="Reset()" >Reset</button>
         </form>
      </div>
      <div style="max-height: 550px; overflow:auto ;">
@@ -78,7 +79,7 @@
                    <input type="hidden"  [value]="d.vehicleID"  />
                   </td>
                   <td>
-                    <span>  {{d.inOutDate}}</span>
+                    <span>   {{d.inOutDate | date:'short' }}</span>
                   </td>
                   <td>
                    <span> {{d.vehicleName}}</span>
@@ -117,7 +118,7 @@
                   <td>
                     <select id="selBinVisit"  class="form-control"  (change) ="getselected($event)" >
                       <option  *ngFor="let x of binvisited" [value]="x.covered"  [selected]="x.covered===d.isIn" >
-                              {{x.covered}}
+                              {{x.showcovered}}
                           </option>
                       </select>
                   </td>
@@ -125,7 +126,7 @@
                     <span>  {{d.vehicleNo}} {{d.vehicleName}}</span>
                   </td>
                   <td>
-                   <span> {{d.inOutTime}}</span>
+                   <span> {{d.inOutTime | date:'short'}}</span>
                   </td>
                   <td>
                     <span> {{d.deviceID}}</span>
