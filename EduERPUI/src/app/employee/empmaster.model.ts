@@ -10,7 +10,7 @@ export class Empmaster {
     public   motherName:string="";
     public  spouseName :string="";
     public mobileNo  :string="";
-    public  WorkingStatusID :number=-1;
+    public  workingStatusID :number=-1;
     public panNumber  :string="";
     public addharNo  :string="";
     public email  :string="";
@@ -28,6 +28,8 @@ export class Empmaster {
     public  CorDistrictID  :number=-1;
     public  corPincode :string="";
     public   corAddress:string="";
+    public   empPhotoBase64:string="";
+    public   empSignatureBase64:string="";
     public  entryDate :Date;
     public  u01_EnterByID :string="";
     public updateDate  :Date;

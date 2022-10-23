@@ -89,6 +89,8 @@ public showquery:boolean=true;
      u01_EnterByID : new FormControl(-1),
 //    updateDate  : new FormControl(),
   //  u01_UpdateByID  : new FormControl()
+  empPhotoBase64:new FormControl(''),
+  empSignatureBase64:new FormControl(''),
   filtertext:new FormControl('')
   })
 
@@ -130,6 +132,8 @@ public country:Country;
   }
 
   Reset(){
+    this.imagedata="";
+    this.signaturedata="";
 this.empQuery.reset();
 this.empQuery.get('m01_GenderID').setValue("-1");
 this.empList=[]=[];
@@ -145,6 +149,8 @@ this.empEntry.patchValue({
   b05_TitleID:-1,
   m01_GenderID:-1,
   e01_WorkingStatusID:-1,
+  empPhotoBase64:"",
+  empSignatureBase64:""
 
 
 })
@@ -317,7 +323,7 @@ let vm=new Vehiclemaster();
     return this.http.get<WorkingStatusList>(  '' + globalConstant.apiUrl + 'Master/GetWorkingStatus/-1');
   }
   public getVehicle$(data:Vehiclemaster): Observable<VehicleMasterList>{
-    return this.http.post<VehicleMasterList>(  '' + globalConstant.apiUrl + 'Vehicle/GetVehicle/',data);
+    return this.http.post<VehicleMasterList>(  '' + globalConstant.apiUrl + 'Vehicle/GetVehicleList/',data);
   }
   public getEmpdata$(empqdata:Empmaster): Observable<EmpmasterList>{
     return this.http.post<EmpmasterList>(  '' + globalConstant.apiUrl + 'Employee/GetEmployee',empqdata);
@@ -345,6 +351,8 @@ let vm=new Vehiclemaster();
     }
     reader.readAsDataURL(file)
   }
+  public imagedata:string="";
+  public signaturedata:string="";
 
   findEmployee():any {
   this.queryEmployee.empID=this.empQuery.get('empID')?.value;
@@ -360,7 +368,7 @@ let vm=new Vehiclemaster();
   this.queryEmployee.vehileID='-1';
   this.queryEmployee.titleID=-1;
   this.queryEmployee.titleID=-1;
-   this.queryEmployee.WorkingStatusID=-1;
+   this.queryEmployee.workingStatusID=-1;
   this.queryEmployee.CorCountryID=-1;
   this.queryEmployee.CorStateID=-1;
   this.queryEmployee.CorDistrictID=-1;
@@ -371,7 +379,6 @@ let vm=new Vehiclemaster();
   this.queryEmployee.u01_UpdateByID='-1';
 
 this.queryEmployee.vehicleNo='';
-console.log(this.queryEmployee);
 //return;
 this.getEmpdata$(this.queryEmployee).subscribe({
   next:(d)=>{
@@ -387,11 +394,45 @@ this.getEmpdata$(this.queryEmployee).subscribe({
 })
   }
 
+  onImageAttached(event): void {
+    const reader = new FileReader();
+  
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+  
+      reader.onload = () => {
+        this.empEntry.patchValue({
+          empPhotoBase64: reader.result
+        });
+        // need to run CD since file load runs outside of zone
+      //  this.cd.markForCheck();
+      };
+    }
+  }
+  //
+  onSignatureAttached(event): void {
+    const reader = new FileReader();
+  
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+  
+      reader.onload = () => {
+        this.empEntry.patchValue({
+          empSignatureBase64 : reader.result
+        });
+        // need to run CD since file load runs outside of zone
+      //  this.cd.markForCheck();
+      };
+    }
+  }
+
   UpdEmployee(emp:Empmaster){
     let empfind=new Empmaster();
     empfind.vehileID='-1';
     empfind.titleID=-1;
-    empfind.WorkingStatusID=-1;
+    empfind.workingStatusID=-1;
     empfind.CorCountryID=-1;
     empfind.CorStateID=-1;
     this.queryEmployee.CorDistrictID=-1;
@@ -402,8 +443,13 @@ this.getEmpdata$(this.queryEmployee).subscribe({
     this.tabselect="2";
     this.getEmpdataById$(emp.empID).subscribe({
       next:(d)=>{
-
-
+console.log(d.result[0].empPhotoBase64);
+if (d.result[0].empPhotoBase64!=""){
+  this.imagedata=d.result[0].empPhotoBase64;
+}
+if (d.result[0].empSignatureBase64!=""){
+  this.signaturedata=d.result[0].empSignatureBase64;
+}
           this.empEntry.patchValue({
             empID:d.result[0].empID,
             b05_TitleID:d.result[0].titleID,
@@ -415,7 +461,7 @@ this.getEmpdata$(this.queryEmployee).subscribe({
             motherName:d.result[0].motherName,
             spouseName:d.result[0].spouseName,
             mobileNo:d.result[0].mobileNo,
-            WorkingStatusID:d.result[0].WorkingStatusID,
+            workingStatusID:d.result[0].workingStatusID,
             panNumber:d.result[0].panNumber,
             addharNo:d.result[0].addharNo,
             email:d.result[0].email,
@@ -429,8 +475,10 @@ this.getEmpdata$(this.queryEmployee).subscribe({
             CorStateID:d.result[0].CorStateID,
             CorDistrictID:d.result[0].CorDistrictID,
             corPincode:d.result[0].corPincode,
-            corAddress:d.result[0].corAddress
-        })
+            corAddress:d.result[0].corAddress,
+            empPhotoBase64:d.result[0].empPhotoBase64,
+            empSignatureBase64:d.result[0].empSignatureBase64
+        });
         this.empEntry.patchValue({
           dob:  this.datePipe.transform(  d.result[0].dob,'yyyy-MM-dd'),
           doj:  this.datePipe.transform(  d.result[0].doj,'yyyy-MM-dd'),
@@ -538,7 +586,7 @@ let savbody=new Empmaster();
   savbody.motherName=this.empEntry.get('motherName')?.value;
   savbody.spouseName=this.empEntry.get('spouseName')?.value;
   savbody.mobileNo=this.empEntry.get('mobileNo')?.value;
-  savbody.WorkingStatusID=this.empEntry.get('e01_WorkingStatusID')?.value;
+  savbody.workingStatusID=this.empEntry.get('e01_WorkingStatusID')?.value;
   savbody.panNumber=this.empEntry.get('panNumber')?.value;
   savbody.addharNo=this.empEntry.get('addharNo')?.value;
   savbody.email=this.empEntry.get('email')?.value;
@@ -558,6 +606,8 @@ savbody.CorStateID=this.empEntry.get('m03_CorStateID')?.value;
 savbody.CorDistrictID=this.empEntry.get('m04_CorDistrictID')?.value;
 savbody.corPincode=this.empEntry.get('corPincode')?.value;
 savbody.corAddress=this.empEntry.get('corAddress')?.value;
+savbody.empPhotoBase64=this.empEntry.get('empPhotoBase64')?.value;
+savbody.empSignatureBase64=this.empEntry.get('empSignatureBase64')?.value;
 savbody.entryDate=new Date();
 savbody.u01_EnterByID="-1";
 savbody.u01_UpdateByID="-1";

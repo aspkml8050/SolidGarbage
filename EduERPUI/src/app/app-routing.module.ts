@@ -13,6 +13,8 @@ import { HTMLtoExcelComponent } from './htmlto-excel/htmlto-excel.component';
 import { VehiclemasterComponent } from './vehiclemaster/vehiclemaster.component';
 import { VehicletypeComponent } from './vehicletype/vehicletype.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { UpdscrapcorrectionComponent } from './updscrapcorrection/updscrapcorrection.component';
+import { WastetrackComponent } from './wastetrack/wastetrack.component';
 const routes: Routes = [
   //{ path: 'Demo' , component: DemoComponent},
   //{ path: 'Welcome' , component: WelcomeComponent},
@@ -42,6 +44,8 @@ const routes: Routes = [
       { path:'vehiclemaster',component:VehiclemasterComponent},
       {path : 'vehicletype',component:VehicletypeComponent},
       {path : 'employee',component:EmployeeComponent},
+      {path: 'updscrapcorrection',component:UpdscrapcorrectionComponent},
+      {path:'wastetrack',component:WastetrackComponent},
       { path: '**', component: PageNotFoundComponent },
     ],
   },

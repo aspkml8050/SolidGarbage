@@ -11,7 +11,7 @@ export class Vehiclemaster {
  public     vehicleNo:string="";
  public     chesisNo:string="";
  public     vehicleEmptyWeight:number=-1;
- 
+ public imageBase64:string="";
 //    u01_CreateBYID:bigint=BigInt(-1);
   //  u01_ModifyBYID:bigint=BigInt(-1);
   //  entryDate?:Date;

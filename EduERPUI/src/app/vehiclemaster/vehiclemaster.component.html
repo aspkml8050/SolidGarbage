@@ -245,7 +245,15 @@
     
   </div>
   </div>
+  <div class="col-md-4">
+    <div class="form-group">
+      <label for="inpVehdevice">Upload Image</label>*
+      <input #fileInput type="file"  class="form-control"  formControlName="imageBase64"  (change)="onImageAttached($event)">
+    
+  </div>
+  </div>
 
+<img alt="no image"  style="width:350px ;" [src]="imagedata"  >
    </div>
   </div>
   <div style="display:flex ;">

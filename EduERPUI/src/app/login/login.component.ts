@@ -77,7 +77,7 @@ invalidcredMessage: string =""
         localStorage.setItem("access_token", response.tokenKey);
        // this.isLoading = false ;
         //this.router.navigate(['/Welcome']);// as of now let full load page will check later there is one scroll bar which not loaded properly
-        window.location.href = "/Welcome";
+        window.location.href = "localhost/Welcome";
       },
       error: (error) => {
         localStorage.setItem("access_token", "")
