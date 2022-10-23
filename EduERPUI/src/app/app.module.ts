@@ -32,6 +32,7 @@ import { VehicletypeComponent } from './vehicletype/vehicletype.component';
 import { VehiclemasterComponent } from './vehiclemaster/vehiclemaster.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { UpdscrapcorrectionComponent } from './updscrapcorrection/updscrapcorrection.component';
+import { WastetrackComponent } from './wastetrack/wastetrack.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { UpdscrapcorrectionComponent } from './updscrapcorrection/updscrapcorrec
     VehicletypeComponent,
     VehiclemasterComponent,
     EmployeeComponent,
-    UpdscrapcorrectionComponent
+    UpdscrapcorrectionComponent,
+    WastetrackComponent
     
   ],
   imports: [

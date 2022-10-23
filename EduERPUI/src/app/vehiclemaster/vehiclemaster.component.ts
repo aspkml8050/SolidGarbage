@@ -50,7 +50,23 @@ public vehMasterList:Vehiclemaster[]=[];
 
 public tabselect:string="";
 public tabselect2:string="1";
+onImageAttached(event): void {
+  const reader = new FileReader();
 
+  if (event.target.files && event.target.files.length) {
+    const [file] = event.target.files;
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      this.vmForm.patchValue({
+        imageBase64: reader.result
+      });
+
+      // need to run CD since file load runs outside of zone
+    //  this.cd.markForCheck();
+    };
+  }
+}
 opclose(){
   this.showquery=!this.showquery;    
 }
@@ -73,7 +89,8 @@ opclose(){
     purchaseYear: new FormControl('',[Validators.required]),
     modelNo: new FormControl(''),
     serialNo: new FormControl(''),
-    vehicleEmptyWeight:new FormControl('0')
+    vehicleEmptyWeight:new FormControl('0'),
+    imageBase64:new FormControl('')
   })
   constructor(
     private http: HttpClient
@@ -174,7 +191,7 @@ public orglist=undefined;
   this.vm.chesisNo=  this.queryVeh.get('chesisNo')?.value;
   this.vm.chesisNo=this.vm.chesisNo==null?"":this.vm.chesisNo;
   this.vm.vehileCatID=  this.queryVeh.get('vehileCatID')?.value;
-  this.getvehdata$(this.vm).subscribe(
+  this.getvehdatalist$(this.vm).subscribe(
     {
      next:(response) =>{
       let list: Vehiclemaster[]=[];
@@ -192,19 +209,22 @@ public orglist=undefined;
         v.deviceID=x.deviceID;
         v.purchaseYear=x.purchaseYear;
         list.push(v);
-this.vehMasterList =list;
   
      });
-//    alert( this.vehMasterList.length);
+     this.vehMasterList =list;
     }
     }
     
     );
    }
+   //
   
 public getvehdata$(data:Vehiclemaster):Observable<VehicleMasterList>{
   let urlcall='' + globalConstant.apiUrl + 'Vehicle/GetVehicle';
   return this.http.post<VehicleMasterList>( '' + globalConstant.apiUrl + 'Vehicle/GetVehicle',data);
+}  
+public getvehdatalist$(data:Vehiclemaster):Observable<VehicleMasterList>{
+  return this.http.post<VehicleMasterList>( '' + globalConstant.apiUrl + 'Vehicle/GetVehicleList',data);
 }  
 
 public saveVehData$(data:Vehiclemaster):Observable<SuccessStatus>{
@@ -230,6 +250,7 @@ SaveVehicle():any{
   vehicleNo:this.vmForm.get('vehicleNo')?.value,
   chesisNo:this.vmForm.get('chesisNo')?.value,
   vehicleEmptyWeight:this.vmForm.get('vehicleEmptyWeight')?.value,
+  imageBase64:this.vmForm.get('imageBase64')?.value,
  }
  if (body.purchaseYear=='') {
   alert('Enter Purchase Year');
@@ -256,11 +277,17 @@ SaveVehicle():any{
   }
 )
 }
+
+public imagedata:string="";
 updVeh(veh:Vehiclemaster){
 let vfind=new Vehiclemaster();
 vfind.vehicleNo=veh.vehicleNo;
 this.getvehdata$(vfind).subscribe({
   next:(response)=>{
+    if (response.result[0].imageBase64!=""){
+      this.imagedata=response.result[0].imageBase64;
+      console.log(this.imagedata);
+    }
     this.vmForm.patchValue({
       vehileID:response.result[0].vehileID,
       vehileName:response.result[0].vehileName,
@@ -274,12 +301,14 @@ this.getvehdata$(vfind).subscribe({
       serialNo:response.result[0].serialNo,
       chesisNo:response.result[0].chesisNo,
       vehicleEmptyWeight:response.result[0].vehicleEmptyWeight
+      //,      imageBase64:response.result[0].imageBase64
     });
     this.tabselect2='2';
   }
 });
 }
 Reset(){
+  this.imagedata="";
   this.vmForm.reset();
   this.queryVeh.reset();
   this.queryVeh.patchValue({

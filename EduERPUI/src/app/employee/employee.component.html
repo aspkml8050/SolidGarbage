@@ -381,7 +381,22 @@
             </div>
           </div>
           <div class="col-md-4">
+           
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
             <div class="form-group">
+              <label for="inpVehdevice">Upload Photo</label>*
+              <input #fileInput type="file"  class="form-control"  formControlName="empPhotoBase64"  (change)="onImageAttached($event)">
+        
+              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="inpVehdevice">Upload Signature</label>*
+              <input #fileInput type="file"  class="form-control"  formControlName="empSignatureBase64"  (change)="onSignatureAttached($event)">
+        
               </div>
           </div>
         </div>
@@ -390,23 +405,12 @@
   </form>
     </div>
   </div>
+
   <button type="button" (click)="SaveEmp()"  class="btn btn-primary">Save</button>
   <button type="button" (click)="Reset()"  class="btn btn-primary">Reset</button>
+<img alt="no Photo"  style="width:350px ;border: 1px solid grey; " [src]="imagedata"  >
+<img alt="no Signature"  style="width:350px ;border: 1px solid grey; " [src]="signaturedata"  >
 
 </div>
 
 
-<form [formGroup]="myForm" >
-
-    <div *ngIf="filePath && filePath !== ''">
-      <img [src]="filePath" [alt]="myForm.value.name">
-    </div>
-  
-    <input type="file" accept="image/*" (change)="imagePreview($event)" />
-  
-    <input formControlName="filename" placeholder="File name">
-  
-    <button type="button" (click)="submit">Upload</button>
-  </form>
-
-  
