@@ -37,7 +37,8 @@ public datets:string;
     vehileID: new FormArray([]),
     fromDate:new FormControl(new Date()) , 
     toDate:new FormControl(new Date()) ,
-    pdfXls:new FormControl('pdf')
+    pdfXls:new FormControl('pdf'),
+    searchVeh:new FormControl('')
   })
 
   getVehicleArray(){
@@ -138,6 +139,7 @@ Reset():void{
   this.veharr=new Array();
   this.orglist=undefined;
   this.getVehicle();
+  this.queryVeh.reset();
   this.queryVeh.patchValue({
     fromDate:  this.datePipe.transform(  this.dattod,'yyyy-MM-dd'),
     toDate:  this.datePipe.transform(  this.dattod,'yyyy-MM-dd')
