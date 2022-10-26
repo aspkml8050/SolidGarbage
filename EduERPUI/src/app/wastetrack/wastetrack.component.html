@@ -1,7 +1,6 @@
-<p>wastetrack works!</p>
 
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding-bottom: :20px;">
    <div class="row">
      <div class="col-md-12">
         <form [formGroup]="queryVeh">
@@ -12,26 +11,45 @@
               </div>
               <div class="card-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="selvtype">Vehicle Type</label>
-                                <select id="selvtype"  class="form-control"  formControlName="vehileTypeID">
-                                <option  *ngFor="let x of VehicletypemasterList.result" [value]="x.vehicleTypeID">
-                                        {{x.vehicleTypeName}}
-                                    </option>
-                                </select>
+                   <div class="row">
+                     <div class="col-md-4">
+                      <input type="text" placeholder="...Search" style="width:250px ;" (keyup)="findVeh($event)" >
+
+                     </div>
+                     <div class="col-md-4">
+                      <label for="inpDateFrom">From Date</label>
+                      <input type="date" id="inpDateFrom"   class="form-control" formControlName="fromDate" />
+    
+                    </div>
+                    <div class="col-md-4">
+                      <label for="inpDateTo">From Date</label>
+                      <input type="date" id="inpDateTo"  class="form-control" formControlName="toDate" />
+
+                    </div>
+                 </div>
+                    <div class="row" style="max-height:450px; overflow:auto ;">
+                        <div class="col-md-12" style="display: flex; flex-wrap: wrap; max-width:inherit ; border: 1px solid grey; ">
+                              <div formArrayName="vehileID" style="width:150px ;"  *ngFor="let veh of vehicleList.result; let i = index">
+                                <label>
+                                  <input type="checkbox" [checked]="veh.selected"  (change)="setSelect($event)"  [value]="veh.vehileID" >
+                                  <span style="font-weight:normal ;"> {{veh.vehicleNo}}</span>
+                                </label>
                               </div>
-           
-                        </div>
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
                         </div>
                       </div>
                     
                  
               </div>
+              <label for="pdf">
+                <input type="radio" name="proption" formControlName="pdfXls" checked="checked"  value="pdf" id="pdf"  />
+                Pdf
+                </label>
+                <label for="xls">
+                  <input type="radio" name="proption"  formControlName="pdfXls"  value="xls" id="xls" />
+                  Xls
+                </label>
+              <button type="button" class="btn btn-primary" (click)="findWaste()"  >Download</button>&nbsp;
+              <button type="button" class="btn btn-primary" (click)="Reset()"  >Reset</button>
             </div>
         </div>
     </form>
